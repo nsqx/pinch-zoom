@@ -1,0 +1,51 @@
+{
+  "name": "@nsqx/pinch-zoom",
+  "version": "1.0.0",
+  "description": "pinch-zoom: A performant pinch-to-zoom and wheel zoom implementation.",
+  "type": "module",
+  "author": "nsqx",
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "pinch-zoom",
+    "zoom",
+    "touch",
+    "gestures",
+    "wheel-zoom"
+  ],
+  "browserslist": [
+    "ie 11",
+    "safari 10",
+    "last 2 versions",
+    "not dead"
+  ],
+  "main": "./dist/index.legacy.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.legacy.js",
+      "browser": "./dist/index.legacy.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.0",
+    "@babel/preset-env": "^7.23.0",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.2.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "core-js": "^3.33.0",
+    "rollup": "^4.0.0",
+    "rollup-plugin-dts": "^6.1.0"
+  }
+}
