@@ -78,6 +78,8 @@ export interface PinchZoomController {
   readonly isRtl: boolean;
   /** Reset zoom level */
   readonly reset: () => void;
+  /** Update metrics & paint */
+  readonly update: () => void;
   /** Remove all event listeners and restore original styles */
   readonly destroy: () => void;
 }
