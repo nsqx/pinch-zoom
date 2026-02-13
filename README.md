@@ -23,7 +23,7 @@ npm install @nsqx/pinch-zoom
 ```
 
 
-## quick start
+## usage
 
 #### JS
 ```js
@@ -35,10 +35,10 @@ const controller = attachPinchZoom(target, {
   kbdEvents: true,
   panMode: ['middle', 'ctrl']
 });
-if (!controller.success) {
-  console.error("Attachment failed: check console.");
-} else {
+if (controller.success) {
   document.querySelector('#reset').onclick = () => controller.reset();
+} else {
+  console.error("Attachment failed: check console.");
 }
 ```
 
@@ -74,7 +74,7 @@ Additionally, the dimensions also should not exceed the viewport size. A pinch-z
 | `smooth` | `boolean` | ~ | enable smooth interpolation for zooming. The default value depends on the `prefers-reduced-motion` value of the client. |
 | `hinted` | `boolean` | `false` | use CSS `will-change` optimization hint |
 | `kbdEvents` | `boolean` | `false` | enable **global** keyboard shortcuts (overrides default behavior) |
-| `panMode` | `string` \| `array` | `'none'` | mouse panning methods <br>may include<br>* `'ctrl'`: Control + drag to pan <br>* `'alt'`: Alt + drag to pan <br>* `'meta'`: meta (Command) + drag to pan <br>* `'shift'`: Shift + drag to pan <br>* `'middle'`: middle mouse button drag to pan <br>* `'right'`: right mouse button drag to pan <br>or any combination thereof |
+| `panMode` | `string` \| `array` | `'none'` | enable mouse panning <br>* `'ctrl'`: Control + drag <br>* `'alt'`: Alt + drag <br>* `'meta'`: meta (Command) + drag <br>* `'shift'`: Shift + drag <br>* `'middle'`: middle mouse button + drag <br>* `'right'`: right mouse button + drag <br>or any combination thereof |
 | `onZoom` | `function` | *`() => {}`* | zoom event listener callback <br>* available event properties: `scale`, `x`, `y` |
 | `onPan` | `function` | *`() => {}`* | pan event listener callback <br>* available event properties: `scale`, `x`, `y` |
 
@@ -83,17 +83,21 @@ Additionally, the dimensions also should not exceed the viewport size. A pinch-z
 
 ### controller object
 
-The function returns a controller, allowing granular control of the PinchZoom object after attachment:
+`attachPinchZoom` returns a controller which allows granular control of the utility object after attachment.
 
+#### State & configuration
 * `scale`:  set the current zoom level.
-* `x` / `y`:  set the current scroll-top / scroll-left values.
-* `mode`, `min`, `max`, `speed`, `smooth`, `hinted`, `kbdEvents`, `panMode` options can all be changed on-the-fly.
-* `reset()`:  reset zoom level.
-* `destroy()`:  remove all pinch-zoom functionality and revert to original styles.
-* readonly `viewportX` / `viewportY`:  get the screen coordinates of the last zoom event origin.
+* `x` / `y`:  set the current horizontal and vertical scroll offsets.
+* Initializer options (`speed`, `min`, `max`...) can be modified on-the-fly.
+* readonly `viewportX` / `viewportY`:  get the screen coordinates of the most recent zoom origin.
 * readonly `success`:  check if attachment succeeded.
-* readonly `isRtl`:  get if pinch-zoom uses right-to-left coordinates.
+* readonly `isRtl`:  check if instance uses right-to-left coordinates.
 * readonly `target` / `container`:  references to DOM elements.
+
+#### Methods
+* `reset()`:  reset zoom level.
+* `update()`:  synchronize with DOM dimensions.
+* `destroy()`:  remove all pinch-zoom functionality and revert elements to original styles.
 
 **Note:** For performance reasons, the metrics accessed via the controller object are debounced and may be inconsistent with actual measurements.
 
