@@ -685,6 +685,12 @@ rtl\t\t\t${is_rtl}`);
         });
       };
     },
+    get update() {
+      // readonly
+      return function () {
+        update_and_paint();
+      }
+    },
     get destroy() {
       // readonly
       return function () {
