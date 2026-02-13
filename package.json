@@ -5,6 +5,10 @@
   "type": "module",
   "author": "nsqx",
   "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nsqx/pinch-zoom.git"
+  },
   "keywords": [
     "pinch-zoom",
     "zoom",
