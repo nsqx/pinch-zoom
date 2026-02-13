@@ -203,7 +203,7 @@ export default ZoomableComponent;
 </script>
 
 <style scoped>
-  .viewport {
+  .container {
     width: 100%;
     height: 400px;
   }
