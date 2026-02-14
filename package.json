@@ -1,6 +1,6 @@
 {
   "name": "@nsqx/pinch-zoom",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "pinch-zoom: A performant pinch-to-zoom and wheel zoom implementation.",
   "type": "module",
   "author": "nsqx",
