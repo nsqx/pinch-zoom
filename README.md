@@ -1,4 +1,5 @@
 # @nsqx/pinch-zoom
+[Demo](https://stage.nsqx.org/demo/pinch-zoom/) | [GitHub](https://github.com/nsqx/pinch-zoom)
 
 A lightweight and performant pinch-to-zoom implementation for DOM elements.
 
