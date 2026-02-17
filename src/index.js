@@ -749,6 +749,7 @@ export function pinchZoomLockViewport({ useMeta = false } = {}) {
   }
   window.addEventListener('wheel', lock_wheel_listener, { passive: false });
   document.documentElement.style.touchAction = 'pan-x pan-y';
+  document.documentElement.style.overscrollBehavior = 'none';
   let original_meta = null;
   let new_meta = null;
   if (useMeta)
@@ -769,6 +770,7 @@ export function pinchZoomLockViewport({ useMeta = false } = {}) {
       return function () {
         window.removeEventListener('wheel', lock_wheel_listener);
         document.documentElement.style.touchAction = '';
+        document.documentElement.style.overscrollBehavior = '';
         if (useMeta)
           if (original_meta !== null) {
             document.querySelector('meta[name=viewport]').content = original_meta;
