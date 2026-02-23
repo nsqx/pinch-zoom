@@ -28,7 +28,7 @@ export function attachPinchZoom(element, options = {}) {
     if (typeof requestAnimationFrame === 'function') {
       return requestAnimationFrame.bind(window);
     }
-    return (f) => setTimeout(() => f(Date.now()), 17);
+    return f => setTimeout(() => f(Date.now()), 17);
   })();
 
   // --- normalize options
@@ -96,7 +96,9 @@ export function attachPinchZoom(element, options = {}) {
     cached_metrics.scroll_left = is_rtl ? -container.scrollLeft : container.scrollLeft;
     cached_metrics.scroll_top = container.scrollTop;
     if (cached_metrics.element_ow * scale < cached_metrics.container_cw) {
-      translate_x = is_rtl ? -(cached_metrics.container_cw - cached_metrics.element_ow * scale) / 2 : (cached_metrics.container_cw - cached_metrics.element_ow * scale) / 2;
+      translate_x = is_rtl
+        ? -(cached_metrics.container_cw - cached_metrics.element_ow * scale) / 2
+        : (cached_metrics.container_cw - cached_metrics.element_ow * scale) / 2;
     } else {
       translate_x = 0;
     }
@@ -136,7 +138,10 @@ export function attachPinchZoom(element, options = {}) {
     target_x = f_opts.x;
     target_y = f_opts.y;
 
-    target_scale = Math.min(Math.max(opts.min, target_scale - target_scale * (f_opts.delta * opts.speed)), opts.max);
+    target_scale = Math.min(
+      Math.max(opts.min, target_scale - target_scale * (f_opts.delta * opts.speed)),
+      opts.max
+    );
 
     if (!_paint_queue) {
       _paint_queue = true;
@@ -156,8 +161,18 @@ export function attachPinchZoom(element, options = {}) {
   }
   function perform_transform(lerp, diff) {
     // mouse pos, relative to element visual state
-    m_x = target_x - cached_metrics.rect.left - cached_metrics.element_ol - cached_metrics.container_cl - translate_x;
-    m_y = target_y - cached_metrics.rect.top - cached_metrics.element_ot - cached_metrics.container_ct - translate_y;
+    m_x =
+      target_x -
+      cached_metrics.rect.left -
+      cached_metrics.element_ol -
+      cached_metrics.container_cl -
+      translate_x;
+    m_y =
+      target_y -
+      cached_metrics.rect.top -
+      cached_metrics.element_ot -
+      cached_metrics.container_ct -
+      translate_y;
     let content_x = (m_x + cached_metrics.scroll_left) / scale;
     let content_y = (m_y + cached_metrics.scroll_top) / scale;
 
@@ -165,7 +180,9 @@ export function attachPinchZoom(element, options = {}) {
 
     if (cached_metrics.element_ow * scale < cached_metrics.container_cw) {
       // width of content is less than viewport
-      translate_x = is_rtl ? -(cached_metrics.container_cw - cached_metrics.element_ow * scale) / 2 : (cached_metrics.container_cw - cached_metrics.element_ow * scale) / 2;
+      translate_x = is_rtl
+        ? -(cached_metrics.container_cw - cached_metrics.element_ow * scale) / 2
+        : (cached_metrics.container_cw - cached_metrics.element_ow * scale) / 2;
       cached_metrics.scroll_left = 0;
     } else {
       translate_x = 0;
@@ -277,7 +294,8 @@ export function attachPinchZoom(element, options = {}) {
       }
   }
 
-  if (opts.kbdEvents) kbd_listeners.push(attach_listener(document, 'keydown', kbd_listener, { passive: false }));
+  if (opts.kbdEvents)
+    kbd_listeners.push(attach_listener(document, 'keydown', kbd_listener, { passive: false }));
 
   // --- mouse pan
 
@@ -294,7 +312,11 @@ export function attachPinchZoom(element, options = {}) {
   let pan_start_listeners = [];
 
   function update_pan_cursor_state() {
-    if ((is_mmouse_down && use_middle) || (is_rmouse_down && use_right) || (is_kbd_pannable && is_lmouse_down)) {
+    if (
+      (is_mmouse_down && use_middle) ||
+      (is_rmouse_down && use_right) ||
+      (is_kbd_pannable && is_lmouse_down)
+    ) {
       container.style.cursor = 'grabbing';
     } else if (is_kbd_pannable) {
       container.style.cursor = 'grab';
@@ -336,7 +358,11 @@ export function attachPinchZoom(element, options = {}) {
   }
 
   function pan_drag__mouse_down(e) {
-    if ((is_kbd_pannable && e.button === 0) || (use_middle && e.button === 1) || (use_right && e.button === 2)) {
+    if (
+      (is_kbd_pannable && e.button === 0) ||
+      (use_middle && e.button === 1) ||
+      (use_right && e.button === 2)
+    ) {
       e.preventDefault();
       if (e.button === 1) {
         is_mmouse_down = true;
@@ -391,7 +417,9 @@ export function attachPinchZoom(element, options = {}) {
     use_right
   ) {
     pan_start_listeners.push(attach_listener(container, 'mousedown', pan_drag__mouse_down));
-    pan_start_listeners.push(attach_listener(document, 'keydown', pan_kbd_drag__keydown, { passive: true }));
+    pan_start_listeners.push(
+      attach_listener(document, 'keydown', pan_kbd_drag__keydown, { passive: true })
+    );
     pan_start_listeners.push(attach_listener(container, 'contextmenu', pan_drag__ctx_cancel));
   }
 
@@ -406,7 +434,8 @@ export function attachPinchZoom(element, options = {}) {
       touch_is_multi = true;
       update_cached_metrics();
       touch_span = Math.sqrt(
-        Math.pow(e.touches[0].pageX - e.touches[1].pageX, 2) + Math.pow(e.touches[0].pageY - e.touches[1].pageY, 2),
+        Math.pow(e.touches[0].pageX - e.touches[1].pageX, 2) +
+          Math.pow(e.touches[0].pageY - e.touches[1].pageY, 2)
       );
       // touch_theta = Math.atan2(e.touches[1].pageY - e.touches[0].pageY, e.touches[1].pageX - e.touches[0].pageX);
       touch_x = (e.touches[0].pageX + e.touches[1].pageX) / 2;
@@ -414,9 +443,11 @@ export function attachPinchZoom(element, options = {}) {
     }
   }
   function touch_move_listener(e) {
+    e.preventDefault();
     if (e.touches && e.touches.length >= 2) {
       let dist = Math.sqrt(
-        Math.pow(e.touches[0].pageX - e.touches[1].pageX, 2) + Math.pow(e.touches[0].pageY - e.touches[1].pageY, 2),
+        Math.pow(e.touches[0].pageX - e.touches[1].pageX, 2) +
+          Math.pow(e.touches[0].pageY - e.touches[1].pageY, 2)
       );
       // theta = Math.atan2(e.touches[1].pageY - e.touches[0].pageY, e.touches[1].pageX - e.touches[0].pageX) - touch_theta /* + angle */;
       // if (theta > Math.PI) theta -= 2 * Math.PI;
@@ -451,15 +482,22 @@ export function attachPinchZoom(element, options = {}) {
 
   let touch_listeners = [];
   if ('maxTouchPoints' in navigator && navigator.maxTouchPoints > 0) {
-    touch_listeners.push(attach_listener(container, 'touchstart', touch_start_listener, { passive: true }));
-    touch_listeners.push(attach_listener(container, 'touchmove', touch_move_listener, { passive: true }));
-    touch_listeners.push(attach_listener(container, 'touchend', touch_end_listener, { passive: true }));
+    touch_listeners.push(
+      attach_listener(container, 'touchstart', touch_start_listener, { passive: false })
+    );
+    touch_listeners.push(
+      attach_listener(container, 'touchmove', touch_move_listener, { passive: false })
+    );
+    touch_listeners.push(
+      attach_listener(container, 'touchend', touch_end_listener, { passive: false })
+    );
   }
 
   // --- attach
 
   general_listeners.push(attach_listener(window, 'resize', update_and_paint));
-  document.readyState !== 'complete' && general_listeners.push(attach_listener(window, 'load', update_and_paint));
+  document.readyState !== 'complete' &&
+    general_listeners.push(attach_listener(window, 'load', update_and_paint));
 
   let observer_debounce_timout, observer;
   if (window.ResizeObserver) {
@@ -648,7 +686,9 @@ rtl\t\t\t${is_rtl}`);
         use_right
       ) {
         pan_start_listeners.push(attach_listener(container, 'mousedown', pan_drag__mouse_down));
-        pan_start_listeners.push(attach_listener(document, 'keydown', pan_kbd_drag__keydown, { passive: true }));
+        pan_start_listeners.push(
+          attach_listener(document, 'keydown', pan_kbd_drag__keydown, { passive: true })
+        );
         pan_start_listeners.push(attach_listener(container, 'contextmenu', pan_drag__ctx_cancel));
       }
       update_pan_cursor_state();
@@ -689,7 +729,7 @@ rtl\t\t\t${is_rtl}`);
       // readonly
       return function () {
         update_and_paint();
-      }
+      };
     },
     get destroy() {
       // readonly
@@ -758,7 +798,9 @@ export function pinchZoomLockViewport({ useMeta = false } = {}) {
       document.querySelector('meta[name=viewport]').content =
         'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content';
     } else if (document.getElementsByTagName('head').length !== 0) {
-      new_meta = document.getElementsByTagName('head')[0].appendChild(document.createElement('meta'));
+      new_meta = document
+        .getElementsByTagName('head')[0]
+        .appendChild(document.createElement('meta'));
       new_meta.name = 'viewport';
       new_meta.content =
         'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content';
