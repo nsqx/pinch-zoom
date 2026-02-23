@@ -28,7 +28,7 @@ export function attachPinchZoom(element, options = {}) {
     if (typeof requestAnimationFrame === 'function') {
       return requestAnimationFrame.bind(window);
     }
-    return f => setTimeout(() => f(Date.now()), 17);
+    return f => setTimeout(() => f(Date.now()), 16);
   })();
 
   // --- normalize options
@@ -504,7 +504,7 @@ export function attachPinchZoom(element, options = {}) {
     observer = new ResizeObserver(function (entries) {
       if (!entries.length) return;
       clearTimeout(observer_debounce_timout);
-      observer_debounce_timout = setTimeout(update_and_paint, 17);
+      observer_debounce_timout = setTimeout(update_and_paint, 16);
     });
     observer.observe(element);
   } else {
