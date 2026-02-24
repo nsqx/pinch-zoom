@@ -243,7 +243,7 @@ export function attachPinchZoom(element, options = {}) {
       update_cached_metrics();
       use_zoom = true;
       is_wheel_event = false;
-    }, 100);
+    }, 80);
   }
 
   let general_listeners = [];
@@ -251,7 +251,7 @@ export function attachPinchZoom(element, options = {}) {
 
   function scroll_listener() {
     scroll_debounce_timout && clearTimeout(scroll_debounce_timout);
-    scroll_debounce_timout = setTimeout(update_cached_metrics, 100);
+    scroll_debounce_timout = setTimeout(update_cached_metrics, 80);
   }
   general_listeners.push(attach_listener(container, 'scroll', scroll_listener, { passive: true }));
 
