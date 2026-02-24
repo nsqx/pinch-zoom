@@ -443,8 +443,8 @@ export function attachPinchZoom(element, options = {}) {
     }
   }
   function touch_move_listener(e) {
-    e.preventDefault();
     if (e.touches && e.touches.length >= 2) {
+      e.preventDefault();
       let dist = Math.sqrt(
         Math.pow(e.touches[0].pageX - e.touches[1].pageX, 2) +
           Math.pow(e.touches[0].pageY - e.touches[1].pageY, 2)
